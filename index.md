@@ -319,6 +319,299 @@ Para la creación de esta clase, nos apoyamos en un constructor al que le pasamo
 [Codigo resuelto](https://github.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct05-objects-classes-interfaces-alu0101119663/tree/master/src/ejercicio-2)
 [Pruebas unitarias realizadas](https://github.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct05-objects-classes-interfaces-alu0101119663/blob/master/tests/ejercicio-2.spec.ts)
 
+### Clase Articulo
+```
+/**
+ * Clase Articulo
+ */
+export class Articulo{
+  /**
+   * 
+   * @param titulo Titulo del articulo
+   * @param autores Autor o autores del articulo
+   * @param email Correo electronico del autor o autores del articulo
+   * @param keywords Palabras claves o keywords del articulo
+   * @param resumen Breve resumen del articulo
+   * @param fecha Fecha de publicacion del articulo
+   * @param editorial Editorial en la que se publicó el artículo.
+   * @param nCitas Cantidad de veces que el artículo ha sido referenciado en otros trabajos.
+   */
+  constructor(private titulo: string, private autores: string[], private email: string[], private keywords: string[], 
+    private resumen: string, private fecha: string, private editorial: string, private nCitas: number) {
+    this.titulo = titulo;
+    this.autores = autores;
+    this.email = email;
+    this.keywords = keywords;
+    this.resumen = resumen;
+    this.fecha = fecha;
+    this.editorial = editorial;
+    this.nCitas = nCitas;
+    }
+
+    /**
+     * getTitulo
+     * @returns el titulo del articulos
+     */
+    public getTitulo() {
+      return this.titulo;
+    }
+
+    /**
+     * getAutores
+     * @returns el autor o autores del articulo
+     */
+    public getAutores() {
+      return this.autores;
+    }
+
+    /**
+     * getEmail
+     * @returns el email del autor o de los autores del articulo
+     */
+    public getEmail() {
+      return this.email;
+    }
+
+    /**
+     * getKeywords
+     * @returns las palabras claves del articulo
+     */
+    public getKeywords() {
+      return this.keywords;
+    }
+
+    /**
+     * getResumen
+     * @returns el resumen del articulo
+     */
+    public getResumen() {
+      return this.resumen;
+    }
+
+    /**
+     * getFecha
+     * @returns la fecha de publicacion del articulo
+     */
+    public getFecha() {
+      return this.fecha;
+    }
+
+    /**
+     * getEditorial
+     * @returns el editorial del articulo
+     */
+    public getEditorial() {
+      return this.editorial;
+    }
+
+    /**
+     * getNCitas
+     * @returns el numero de citas del articulo
+     */
+    public getNCitas() {
+      return this.nCitas;
+    }
+
+    /**
+     * setTitulo
+     * @param titulo_ Nuevo titulo que queremos actualizar
+     */
+    public setTitulo(titulo_: string) {
+      this.titulo = titulo_;
+    }
+
+    /**
+     * setAutor
+     * @param autor_ Nuevo autor o autores que queremos actualizar
+     */
+    public setAutor(autor_: string[]) {
+      this.autores = autor_;
+    }
+
+    /**
+     * setEmail
+     * @param email_ Nuevo email que queremos actualizar
+     */
+    public setEmail(email_: string[]) {
+      this.email = email_;
+    }
+
+    /**
+     * setKeywords
+     * @param keywords_ Nuevo palabras claves que queremos actualizar
+     */
+    public setKeywords(keywords_: string[]) {
+      this.keywords = keywords_;
+    }
+
+    /**
+     * setResumen
+     * @param resumen_ Nuevo resumen que queremos actualizar
+     */
+    public setResumen(resumen_: string) {
+      this.resumen = resumen_;
+    }
+
+    /**
+     * setFecha
+     * @param fecha_ Nueva fecha que queremos actualizar
+     */
+    public setFecha(fecha_: string) {
+      this.fecha = fecha_;
+    }
+
+    /**
+     * setEditorial
+     * @param editorial_ Nueva editorial  que queremos actualizar
+     */
+    public setEditorial(editorial_: string) {
+      this.editorial = editorial_;
+    }
+
+    /**
+     * setNCitas
+     * @param nCitas_ Nuevo numero de citas que queremos actualizar
+     */
+    public setNCitas(nCitas_: number) {
+      this.nCitas = nCitas_;
+    }
+
+    /**
+     * calcularAPA
+     * @returns el APA correspondiente al articulo
+     */
+    public calcularAPA(): string {
+      let APA: string = "";
+      let indice = 0;
+
+      this.autores.forEach((dato) => {
+        if (indice == 0) {
+          APA = dato;
+        } else if (indice > 0) {
+          if (indice == this.autores.length - 1) {
+            APA += ` y ${dato}`;
+          } else {
+            APA += `, ${dato}`;
+          }
+        }
+        indice++
+      });
+
+      APA += ` (${this.fecha}) ${this.titulo}, ${this.editorial}`;
+
+      return APA;
+    }
+}
+```
+Para la realización de esta clase **Articulo** creamos un constructor con los datos que nos dan en el enunciado **titulo, autor, email, keywords, resumen, fecha, editorial, numero de citas**. Una vez creado el constructor creamos sus correspondientes *Getters y Setters*. Tras esto, solo nos queda describir la función que calcula el APA. Para empezar creamos la variable que retornaremos con el resultado y un índice. Recorremos un vector que contiene a los autores con un bucle del tipo de **JavaScript** *forEach* para agruparlos a la cadena que contiene el resultado. Existen tres condicionales que se encargarán de contemplar los casos de si es un único escritor o escritora o si son varios. Una vez hemos añadido todos los autores, ya solo nos falta añadir (concatenar) a la cadena que se retornará los valores de la fecha, el título y el editorial correspondiente.
+### Clase Gestor
+```
+import {Articulo} from './articulo';
+
+/**
+ * Clase que se usara como gestor de articulos
+ */
+export class Gestor{
+
+  /**
+   * Constructor del la clase Gestor
+   * @param articulos contiene los objetos Articulos que gestionara el Gestor bibliografico
+   */
+  constructor(public articulos: Articulo[]) {}
+
+  /**
+   * getArticulos
+   * @returns los articulos que esten almacenados
+   */
+  public getArticulos() {
+    return this.articulos;
+  }
+
+  /**
+   * addArticulo
+   * @param nuevoArticulo es añadido a los artículos que ya están almacenados en el gestor
+   */
+  public addArticulo(nuevoArticulo: Articulo) {
+    this.articulos.push(nuevoArticulo);
+  }
+
+  /**
+   * Función que imprimirá por pantalla los datos de los articulos en forma de tabla
+   */
+  public printArticulos() {
+    console.table(this.articulos);
+  }
+
+  /**
+   * Funcion que permite hacer una busqueda mediante filtros
+   * @param keyword Que estamos buscando
+   * @param filtro Filtro para adecuar la busqueda
+   * @returns Todo articulo que resulte después de aplicar el filtro durante la busqueda, este de retorna en formato APA
+   */
+  public buscarArticulo(keyword: string[], filtro: string[]) {
+    let num: number[] = [];
+    
+    for (let i: number = 0; i < keyword.length; i++) {
+      for (let j: number = 0; j < this.articulos.length; j++) {
+        for (let k: number = 0; k < filtro.length; k++) {
+          switch (filtro[k]) {
+            case `keywords`:
+              for (let l: number = 0; l < this.articulos[j].getKeywords().length; l++) {
+                if (this.articulos[j].getKeywords()[l] == keyword[i]) {
+                  num.push(j);
+                }
+              }
+              break;
+            
+            case `fecha`: 
+              if (this.articulos[j].getFecha() == keyword[i]) {
+                num.push(j);
+              }
+              break;
+
+            case `editorial`:
+              if (this.articulos[j].getEditorial() == keyword[i]) {
+                num.push(j);
+              } 
+              break;
+            
+            case `autor`:
+              for (let x: number = 0; x < this.articulos[j].getAutores().length; x++) {
+                if (this.articulos[j].getAutores()[x] == keyword[i]) {
+                  num.push(j);
+                }
+              }
+              break;    
+          }
+        }
+      }
+    }
+
+    for (let i = num.length - 1; i >= 0; i--) {
+      if (num.indexOf(num[i]) !== 1) {
+        num.splice(i, 1);
+      }
+    }
+
+    let resultadoBusqueda: Articulo[] = [];
+    while (num.length > 0) {
+      resultadoBusqueda.push(this.articulos[num[0]]);
+      num.shift;
+    }
+
+    let encontrados: string[] = [];
+    for(let i: number = 0; i < resultadoBusqueda.length; i++) {
+      encontrados.push(resultadoBusqueda[i].calcularAPA());
+      console.log(`Se han encontrado los siguientes articulos: `);
+      console.log(encontrados[i]);
+    }
+    return encontrados;
+  }
+
+}
+```
+Para la realización de la clase *Gestor*, al constructor se le pasa un vector del tipo **Articulos**, ya que se va a trabajar con ellos. Tenemos un *Getter*. Una función que añade un nuevo artículo al vector. Una función que se encarga de mostrar por pantalla el contenido del vector, con la particularidad de que se imprime en forma de tabla. Y por úlitmo la función más interesante. La función **buscarArticulo**, nos permitirá realizar una búsqueda en nuestro vector, con los dos parámetros que le pasamos, en el primero ponemos la palabra que queremos buscar y en el segundo el filtro al que pertenece esta palabra. Para realizar la búsqueda necesitaremos varios bucles anidados, en el primero se recorren las palabras que hemos introducido como primer parámetro, en el segundo se recorre la longitud del artículo y en el tercero se recorre el segundo parámetro que le hemos pasado. Dentro de estos bucles anidados tenemos un *switch* que se encargará de comprobar en cada campo el string que le hemos pasado, y así comprueba en cada artículo lo que se ha querido buscar para luego posteriormente añadir a un vector el número que le corresponde a cada artículo. Para así tener todos los que cumplen las condiciones que se han puesto y porteriormente imprimir los que se han encontrado en formato **APA**.
+
 ## Ejercicio 3 - Medios de transporte
 [Codigo resuelto](https://github.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct05-objects-classes-interfaces-alu0101119663/tree/master/src/ejercicio-3)
 [Pruebas unitarias realizadas](https://github.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct05-objects-classes-interfaces-alu0101119663/blob/master/tests/ejercicio-3.spec.ts)
