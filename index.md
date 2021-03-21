@@ -13,6 +13,7 @@ Antes de empezar, hemos de crear la estructura. Para ello nos haremos los mismos
 
 ## Ejercicio 1 - Pokedex
 [Codigo resuelto](https://github.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct05-objects-classes-interfaces-alu0101119663/tree/master/src/ejercicio-1)
+
 [Pruebas unitarias realizadas](https://github.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct05-objects-classes-interfaces-alu0101119663/blob/master/tests/ejercicio-1.spec.ts)
 
 ### Clase Pokemon
@@ -317,6 +318,7 @@ Para la creación de esta clase, nos apoyamos en un constructor al que le pasamo
 
 ## Ejercicio 2 - Gestor bibliográfico
 [Codigo resuelto](https://github.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct05-objects-classes-interfaces-alu0101119663/tree/master/src/ejercicio-2)
+
 [Pruebas unitarias realizadas](https://github.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct05-objects-classes-interfaces-alu0101119663/blob/master/tests/ejercicio-2.spec.ts)
 
 ### Clase Articulo
@@ -614,5 +616,286 @@ Para la realización de la clase *Gestor*, al constructor se le pasa un vector d
 
 ## Ejercicio 3 - Medios de transporte
 [Codigo resuelto](https://github.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct05-objects-classes-interfaces-alu0101119663/tree/master/src/ejercicio-3)
+
 [Pruebas unitarias realizadas](https://github.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct05-objects-classes-interfaces-alu0101119663/blob/master/tests/ejercicio-3.spec.ts)
 
+### Clase Movable
+```
+/**
+ * Interfaz Movable. Tiene los atributos necesario para los vehiculos.
+ */
+export interface Movable {
+  modelo: string;
+  numRuedas: number;
+  velocidad: number;
+  ocupantes: number;
+}
+```
+En esta clase **Movable** se ha creado una interfaz como se ha pedido en el guión de la práctica. En ella he añadido los atributos que corresponden con vehículos que pueden circular por una calle. Como pueden ser **nombre, número de ruedas, velocidad a la que está circulando y cuantos ocupantes van**. Esta interfaz se "llamará" en cada clase de vehiculos que a continuación vemos.
+### Clase Coche, Bicicleta, Guagua, Moto, Patinete, Peatón, Tren
+```
+import {Movable} from './movable';
+
+/**
+ * Clase Coche
+ */
+export class Coche implements Movable {
+  
+  /**
+   * Constructor de la clase Coche
+   * @param modelo Nombre del modelo
+   * @param numRuedas Numero de ruedas que tiene
+   * @param velocidad Velocidad de circulación
+   * @param ocupantes Ocupantes que pueden ir dentro
+   */
+  constructor(public modelo: string, public numRuedas: number, public velocidad: number, public ocupantes: number) {}
+
+  /**
+   * getModelo
+   * @returns Nombre del modelo
+   */
+  public getModelo(){
+    return this.modelo;
+  }
+
+  /**
+   * getNumRuedas
+   * @returns Numero de ruedas
+   */
+  public getNumRuedas(){
+    return this.numRuedas;
+  }
+
+  /**
+   * getVelocidad
+   * @returns Velocidad de circulación
+   */
+  public getVelocidad(){
+    return this.velocidad;
+  }
+
+  /**
+   * getOcupantes
+   * @returns Numero de ocupantes
+   */
+  public getOcupantes(){
+    return this.ocupantes;
+  }
+
+}
+```
+He puesto juntas estas clases, ya que son muy similares. Primero se crea el constructor, y posteriormente se crean los *Getter y Setters*.
+### Clase Street
+```
+import {Coche} from './coche';
+import {Moto} from './moto';
+import {Patinete} from './patinete';
+import {Tren} from './tren';
+import {Guagua} from './guagua';
+import {Peaton} from './peaton';
+import {Bicicleta} from './bicicleta';
+
+
+export class Street {
+
+  /**
+   * Constructor de la clase Street
+   * @param nombreCalle Nombre de la calle
+   * @param localizacion Localizacion de la calle
+   * @param numeroCoche Numero de coches que circulan por la calle
+   * @param numeroMoto Numero de motos por la calle
+   * @param numeroPatinete Numero de patinetes por la calle
+   * @param numeroTren Numero de trenes por la calle
+   * @param numeroGuagua Numero de guaguas por la calle
+   * @param numeroBicicleta Numero de bicicletas por la calle
+   * @param numeroPeaton Numero de peatones por la calle
+   */
+  constructor(private nombreCalle: string, private localizacion: string, private numeroCoche: Coche[], private numeroMoto: Moto[], private numeroPatinete: Patinete[],
+    private numeroTren: Tren[], private numeroGuagua: Guagua[], private numeroBicicleta: Bicicleta[], private numeroPeaton: Peaton[]) {}
+
+  /**
+   * Imprimir por pantalla cantidad de vehiculos que hay en la calle de forma desglosada
+   */  
+  public informacionCalle() {
+    console.log(`Datos de la calle ${this.nombreCalle}, ${this.localizacion}`);
+    console.log(`Coches: ${this.numeroCoche.length}`);
+    console.log(`Motos: ${this.numeroMoto.length}`);
+    console.log(`Patinetes: ${this.numeroPatinete.length}`);
+    console.log(`Tren: ${this.numeroTren.length}`);
+    console.log(`Guagua: ${this.numeroGuagua.length}`);
+    console.log(`Bicicleta: ${this.numeroBicicleta.length}`);
+    console.log(`Peaton: ${this.numeroPeaton.length}`);
+  }
+
+  /**
+   * Devuelve el numero maximo de vehiculos
+   * @returns 
+   */
+  public getNumeroVehiculos(){
+    return (this.numeroCoche.length + this.numeroMoto.length + this.numeroPatinete.length + this.numeroTren.length + this.numeroGuagua.length + this.numeroBicicleta.length + this.numeroPeaton.length);
+  }
+
+  /**
+   * Añade un vehiculo a la calle
+   * @param item Vehiculo a introducir
+   */
+  public addVehiculo(item: Coche | Moto | Patinete | Tren | Guagua | Bicicleta | Peaton) {
+    if (item instanceof Coche) {
+      this.numeroCoche.push(item);
+    } else if (item instanceof Moto) {
+      this.numeroMoto.push(item);
+    } else if (item instanceof Patinete) {
+      this.numeroPatinete.push(item);
+    } else if (item instanceof Tren) {
+      this.numeroTren.push(item);
+    } else if (item instanceof Guagua) {
+      this.numeroGuagua.push(item);
+    } else if (item instanceof Bicicleta) {
+      this.numeroBicicleta.push(item);
+    } else if (item instanceof Peaton) {
+      this.numeroPeaton.push(item)
+    }
+  }
+
+  /**
+   * Elimina un vehiculo de la calle
+   * @param item Vehiculo a eliminar
+   */
+  public removeVehiculo(item: Coche | Moto | Patinete | Tren | Guagua | Bicicleta | Peaton) {
+    if (item instanceof Coche) {
+      this.numeroCoche.splice(this.numeroCoche.indexOf(item), 1);
+    } else if (item instanceof Moto) {
+      this.numeroMoto.splice(this.numeroMoto.indexOf(item), 1);
+    } else if (item instanceof Patinete) {
+      this.numeroPatinete.splice(this.numeroPatinete.indexOf(item), 1);
+    } else if (item instanceof Tren) {
+      this.numeroTren.splice(this.numeroTren.indexOf(item), 1);
+    } else if (item instanceof Guagua) {
+      this.numeroGuagua.splice(this.numeroGuagua.indexOf(item), 1);
+    } else if (item instanceof Bicicleta) {
+      this.numeroBicicleta.splice(this.numeroBicicleta.indexOf(item), 1);
+    } else if (item instanceof Peaton) {
+      this.numeroPeaton.splice(this.numeroPeaton.indexOf(item), 1);
+    }
+  }
+
+  /**
+   * Ordena los vehiculos según su velocidad, de formas ascendente.
+   */
+  public ordenarVelocidad() {
+    this.numeroCoche.sort(function(x, y) {
+      return x.getVelocidad() - y.getVelocidad();
+    });
+    this.numeroMoto.sort(function(x, y) {
+      return x.getVelocidad() - y.getVelocidad();
+    });
+    this.numeroPatinete.sort(function(x, y) {
+      return x.getVelocidad() - y.getVelocidad();
+    });
+    this.numeroTren.sort(function(x, y) {
+      return x.getVelocidad() - y.getVelocidad();
+    });
+    this.numeroGuagua.sort(function(x, y) {
+      return x.getVelocidad() - y.getVelocidad();
+    });
+    this.numeroBicicleta.sort(function(x, y) {
+      return x.getVelocidad() - y.getVelocidad();
+    });
+    this.numeroPeaton.sort(function(x, y) {
+      return x.getVelocidad() - y.getVelocidad();
+    });
+  }
+}
+```
+En esta última clase, se crea un constructor al que le pasamos los parámetros de **nombre de la calla, localización y número de Coches, Bicicletas, Guaguas, Motos, Patinetes, Peatónes y Trenes**. Posteriormente se crea la función **informacionCalle** que imprime por pantalla los datos del estado actual de la calle. Luego tenemos un *Getter* para obtener el número de vehiculos que hay en la calle. Un método que nos permite añadir un vehículo a la calle. Dependiendo del tipo que sea, se hará un *push* a su correspondiente *array*. Del mismo modo hay un método que se encarga de eliminar un determinado vehículo, por si se da el caso de que este vehículo ya ha salido de la calle. Y por último una función que se encarga de ordenar los vehiculos por velocidad de forma ascendente. Para realizarlo uso la función **sort**. A esta función se le pasan los elementos que vamos a comparar, yo los he llamado X e Y, hace la resta en el atributo correspondiente, y en funcioón al valor que se dé se ordena.
+
+## Pruebas Unitarias realizadas
+```
+  Ejercicio 1 - Pokedex
+    Expectativa para objetos de la clase Pokemon
+      ✓ Pikachu.getName() return Pikachu
+      ✓ Pikachu.getWeight() return 6.0
+      ✓ Pikachu.getHeight() return 0.4
+      ✓ Pikachu.getType() return electrico
+      ✓ Pikachu.getAttributes().attack return 55
+      ✓ Pikachu.getAttributes().defense return 40
+      ✓ Pikachu.getAttributes().speed return 55
+      ✓ Pikachu.getAttributes().health return 55
+    Expectativa para objetos de la clase Pokedex
+      ✓ Pokemons.getPokedex return not null
+      ✓ Pokemons.findPokemon(Pikachu) return Pikachu
+[
+  Pokemon {
+    name: 'Pikachu',
+    weight: 6,
+    height: 0.4,
+    type: 'electrico',
+    attributes: { attack: 55, defense: 40, speed: 90, health: 320 }
+  },
+  Pokemon {
+    name: 'Charmander',
+    weight: 8.5,
+    height: 0.6,
+    type: 'fuego',
+    attributes: { attack: 52, defense: 43, speed: 65, health: 309 }
+  }
+]
+      ✓ Se puede imprimir por pantalla la Pokedex
+    Expectativa para objetos de la clase Combat
+      ✓ Combate1.showParticipants() return Los Pokemons que participan en el combate son: Pikachu contra Charmander
+      ✓ Combate1.calculateDamage(1) return damege to Charmander
+Sus correspondientes Puntos de Salud son: Para Pikachu -> 320 y para Charmander -> 309
+
+Turno de ataque para: Charmander
+La vida de Pikachu ha bajado a: 255
+
+Turno de ataque para: Charmander
+La vida de Pikachu ha bajado a: 190
+
+Turno de ataque para: Charmander
+La vida de Pikachu ha bajado a: 125
+
+Turno de ataque para: Charmander
+La vida de Pikachu ha bajado a: 60
+
+Turno de ataque para: Charmander
+La vida de Pikachu ha bajado a: -5
+
+Y ha terminado el combate! El ganado es: Charmander.
+      ✓ Combate1.startCombat() return winner
+
+  Ejercicio 2 - Gestor bibliográfico
+    Expectativa para objetos de la clase Articulo
+      ✓ getTitulo() returns Kroos, el truco del falso lento
+      ✓ getAutores() returns David Alvarez
+      ✓ getEmail() returns davidalvarez@gmail.com
+      ✓ getKeywords() returns Futbol
+      ✓ getFecha() returns 2021
+      ✓ getEditorial() returns ElPais
+      ✓ getNCitas() returns 8
+      ✓ calcularAPA() returns David Alvarez (2021) Kroos, el truco del falso lento, ElPais
+    Expectativa para objetos de la clase Gestor
+┌─────────┬─────────────────────────────────────────────────────────────┬─────────────────────┬──────────────────────────────┬────────────────┬───────────────────────────────────────────────────────────────────┬────────┬───────────┬────────┐
+│ (index) │                           titulo                            │       autores       │            email             │    keywords    │                              resumen                              │ fecha  │ editorial │ nCitas │
+├─────────┼─────────────────────────────────────────────────────────────┼─────────────────────┼──────────────────────────────┼────────────────┼───────────────────────────────────────────────────────────────────┼────────┼───────────┼────────┤
+│    0    │              'Kroos, el truco del falso lento'              │ [ 'David Alvarez' ] │ [ 'davidalvarez@gmail.com' ] │  [ 'Futbol' ]  │ 'Victoria del Real Madrid ante el Celta, con un gran Toni Kroos.' │ '2021' │ 'ElPais'  │   8    │
+│    1    │ 'Gobierno. No habra elecciones aunque rompa Unidas Podemos' │ [ 'Lucia Mendez' ]  │ [ 'luciamendez@gmail.com' ]  │ [ 'Politica' ] │             'Actualización sobre el actual Gobierno'              │ '2021' │ 'elMundo' │   8    │
+└─────────┴─────────────────────────────────────────────────────────────┴─────────────────────┴──────────────────────────────┴────────────────┴───────────────────────────────────────────────────────────────────┴────────┴───────────┴────────┘
+      ✓ printArticulos()
+      ✓ buscarArticulo()
+
+  Ejercicio 3 - Medios de transporte
+    Expectativa para objetos de la clase Coche
+      ✓ Se crea el objeto de la manera correcta
+      ✓ getModelo() returns Seat Ibiza
+      ✓ getNumRuedas() returns 4
+      ✓ getOcupantes() returns 5
+      ✓ getVelocidad() returns 65
+    Expectativa para objetos de la clase Steet
+      ✓ Se crea el objeto de la manera correcta
+      ✓ getNumeroVehiculos returns 5
+      ✓ Se ordena por velocidad de manera ascendente
+```
+
+## Bibliografía
+Guión - https://ull-esit-inf-dsi-2021.github.io/prct05-objects-classes-interfaces/
