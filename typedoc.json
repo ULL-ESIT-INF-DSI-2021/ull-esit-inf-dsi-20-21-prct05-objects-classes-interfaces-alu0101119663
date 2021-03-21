@@ -1,0 +1,18 @@
+{
+  "entryPoints": [
+    "./src/ejercicio-1/combat.ts",
+    "./src/ejercicio-1/pokedex.ts",
+    "./src/ejercicio-1/pokemon.ts",
+    "./src/ejercicio-1/articulo.ts",
+    "./src/ejercicio-1/movable.ts",
+    "./src/ejercicio-1/street.ts",
+    "./src/ejercicio-1/coche.ts",
+    "./src/ejercicio-1/moto.ts",
+    "./src/ejercicio-1/patinete.ts",
+    "./src/ejercicio-1/tren.ts",
+    "./src/ejercicio-1/guagua.ts",
+    "./src/ejercicio-1/bicleta.ts",
+    "./src/ejercicio-1/peaton.ts"
+  ],
+  "out": "./docs"
+}
